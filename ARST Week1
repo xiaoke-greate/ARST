@@ -1,2 +1,61 @@
 序
-第一次使用GitHub写博客，
+  当选择用什么来记录ARST的时候，在CSDN,博客园，知乎，简书，GitHub之间摇摆不定。最后突然想到GitHub是我最陌生最不会使用的。好，就选它了
+  
+  A：arithmetic算法  二叉树的合并，LeetCode 617
+  R：对 http://zookeeper.apache.org/doc/r3.4.13/zookeeperOver.html的阅读
+  T：
+  S：
+
+
+
+A：
+  早在参加ARST打卡之前，就听说LeetCode上的题很值得刷一刷，不论是对算法，数据结构的理解，还是应对各大公司的笔试都会大有裨益。LeetCode的难度分为easy
+medium和hard。我是从easy开始刷起的。目前印象比较深的就是二叉树的合并这一道。Merge Two Binary Trees，题目自行力扣
+  先说思路：刚开始看到这道题了时候，第一反应是茫然，脑中想像着两棵二叉树图重合的画面。然后看题目中，定义了一个TreeNode对象，通过对象模拟二叉树，直观又
+简单。合并，无非就是对象中的val属性相加，而怎么做到二叉树上的各个节点都相加呢？无疑需要用到循环或者递归。而每棵二叉树又分为左节点和右节点。然后左节点的
+左节点和右节点，一直下去，直到为null。那就左节点跟左节点合并，右节点跟右节点合并，也就是说合并后的左节点是两个左节点的合并，合并后的右节点是两个右节点
+合并。OK，这句话是精髓，下面是源码。
+public class MergeTrees {
+
+    static class TreeNode {
+      int val;
+      TreeNode left;
+      TreeNode right;
+      TreeNode(int x) { val = x; }
+  }
+
+    public static void main(String[] args) {
+      //测试专用
+    }
+
+    public TreeNode  mergeTrees(TreeNode t1, TreeNode t2) {
+        if(t1==null&&t2==null){
+            return null;
+        }
+        if(t1 == null){
+            return t2;
+        }
+        if(t2 == null){
+            return t1;
+        }
+
+        TreeNode root = new TreeNode(t1.val+t2.val);
+        root.left = mergeTrees(t1.left,t2.left);
+        root.right = mergeTrees(t1.right,t2.right);
+
+        return  root;
+    }
+}
+总结：第一次打卡，感觉这道题过于简单了点，既然是打卡，有必要每周专门刷一道hard类型的。
+B：
+  之前本准备阅读medium（需要梯子）上一篇关于cookie的文章的，奈何周末晚上一个人在公司，有点瘆得慌，回寝室之后，自己的电脑梯子都失败了。所以阅读了
+zookeeper官网上的一篇文章，后面也许专门学习zookeeper的。阅读链接：http://zookeeper.apache.org/doc/r3.4.13/zookeeperOver.html
+Zookeeper:分布式应用上的分布式协调服务
+  Zookeeper是开源的解决应用分布式的服务。它只需要简单的配置就能更高标准的同步服务。它被设计成易于编程的，类似文件系统的目录结构。
+  它的目标是被设计成简单的，允许分布式应用通过命名层级来实现协调，就像标准的文件系统。命名空间是由节点组成，就像文件和文件夹。
+  不像典型的文件系统，zookeeper的数据是存在内存里的，这样他能实现高的吞吐量，低的延迟数。
+ookeeper服务组成的服务器必要要让它们彼此都知道。只要大多数的服务都可用，zookeeper就可用。客户端连接着一个单一的zookeeper服务。
+  客户端通过发送请求，获得响应，获得观察事件，发送心跳来维持TCP连接。如果TCP连接服务断开了，客户端会继续连接不同的服务。zookeeper
+是有序的，也是快速的。当读操作比写操作更多是，它的性能更好。
+  数据模型和层次命名空间。 zookeeper的命名空间非常像一个标准的文件系统，名字被一系列路径用/隔开。每一个节点用路径标识。
+     节点和临时节点，zookeeper的节点分为永久节点和临时节点。节点除了数据可能还含有子节点。
